@@ -57,16 +57,15 @@ func scrapeWithCache(url string, cache *Cache, keyword string) {
 	if found {
 		lines := strings.Split(cachedContentReturned, "\n")
 		var matchedTalks string
-		addedLines := make(map[string]bool) // Track lines that have been added to matchedTalks
+		addedLines := make(map[string]bool)
 
 		for i := 0; i < len(lines); i++ {
 			line := strings.ToLower(lines[i])
 			if strings.Contains(line, strings.ToLower(keyword)) && !addedLines[line] {
-				// Append current line and next line (if it exists)
 				if i+1 < len(lines) {
 					matchedTalks += fmt.Sprintf("%s\n%s\n\n", lines[i], lines[i+1])
-					addedLines[line] = true       // Mark line as added
-					addedLines[lines[i+1]] = true // Mark the next line as added
+					addedLines[line] = true
+					addedLines[lines[i+1]] = true
 				} else {
 					matchedTalks += fmt.Sprintf("%s\n", lines[i])
 					addedLines[line] = true

@@ -64,7 +64,7 @@ func scrapeWithCache(url string, cache *Cache, keyword string) {
 			if strings.Contains(line, strings.ToLower(keyword)) && !addedLines[line] {
 				// Append current line and next line (if it exists)
 				if i+1 < len(lines) {
-					matchedTalks += fmt.Sprintf("%s\n%s\n", lines[i], lines[i+1])
+					matchedTalks += fmt.Sprintf("%s\n%s\n\n", lines[i], lines[i+1])
 					addedLines[line] = true       // Mark line as added
 					addedLines[lines[i+1]] = true // Mark the next line as added
 				} else {
@@ -74,7 +74,11 @@ func scrapeWithCache(url string, cache *Cache, keyword string) {
 			}
 		}
 		fmt.Println("Sirviendo desde cache:")
-		fmt.Println(matchedTalks)
+		if len(matchedTalks) > 0 {
+			fmt.Println(matchedTalks)
+		} else {
+			fmt.Println("Parece que no hay charlas con esa keyword en el título :( ")
+		}
 		return
 	}
 
@@ -106,15 +110,19 @@ func scrapeWithCache(url string, cache *Cache, keyword string) {
 		}
 		cachedContent += fmt.Sprintf("%s\nDía: %s\n", linkText, time_of_talk)
 		if strings.Contains(strings.ToLower(linkText), strings.ToLower(keyword)) && !strings.Contains(strings.ToLower(content), strings.ToLower(linkText)) {
-			content += fmt.Sprintf("%s\nDía: %s\n", linkText, time_of_talk)
+			content += fmt.Sprintf("%s\nDía: %s\n\n", linkText, time_of_talk)
 			count += 1
 		}
 
 	})
 
 	cache.Set(url, cachedContent)
+	if len(content) > 0 {
+		fmt.Println(content)
+	} else {
+		fmt.Println("Parece que no hay charlas con esa keyword en el título :( ")
+	}
 
-	fmt.Println(content)
 }
 
 func main() {

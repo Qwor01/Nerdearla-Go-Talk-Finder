@@ -1,0 +1,18 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Coverage file, built with `go test -coverprofile`
+*.cov
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
